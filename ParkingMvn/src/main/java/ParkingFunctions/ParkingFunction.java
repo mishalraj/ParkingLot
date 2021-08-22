@@ -3,6 +3,7 @@ package ParkingFunctions;
 import Entity.Vehicle;
 import Exceptions.InvalidLotSizeException;
 import Exceptions.InvalidSlotException;
+import Exceptions.ParkingFullException;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public interface ParkingFunction {
 
   public void createParking(int slotSize) throws InvalidLotSizeException;
 
-  public void parkVehicle(Vehicle vehicle);
+  public void parkVehicle(Vehicle vehicle) throws ParkingFullException;
 
   public void getVehicleParkingSlotNumbers(int age);
 

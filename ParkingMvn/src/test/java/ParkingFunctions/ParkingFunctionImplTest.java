@@ -3,6 +3,7 @@ package ParkingFunctions;
 import Entity.Vehicle;
 import Exceptions.InvalidLotSizeException;
 import Exceptions.InvalidSlotException;
+import Exceptions.ParkingFullException;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Rule;
@@ -34,18 +35,31 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
 
-    @Test
-    public void testFailedCreateParking() throws Exception {
+    @Test(expected = InvalidLotSizeException.class)
+    public void testFailedCreateParking() {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
-        parkingFunction.createParking(0);
-         exceptionRule.expect(InvalidLotSizeException.class);
-         exceptionRule.expectMessage("Invalid ParkingFunction Lot size");
-         System.setOut(null);
+        try {
+            parkingFunction.createParking(0);
+        } catch (InvalidLotSizeException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test(expected = ParkingFullException.class)
+    public void testParkVehicleFailed() throws InvalidLotSizeException {
+        ParkingFunction parkingFunction = new ParkingFunctionImpl();
+        parkingFunction.createParking(6);
+        try {
+            parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
+        } catch (ParkingFullException e) {
+            e.printStackTrace();
+        }
     }
 
 
     @Test
-    public void testParkVehicle() throws InvalidLotSizeException {
+    public void testParkVehicle() throws InvalidLotSizeException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
@@ -55,7 +69,7 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
     @Test
-    public void testParkMultipleVehicle() throws InvalidLotSizeException {
+    public void testParkMultipleVehicle() throws InvalidLotSizeException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
@@ -71,7 +85,11 @@ public class ParkingFunctionImplTest extends TestCase {
     public void testGetVehicleParkingSlotNumbers() throws InvalidLotSizeException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
-        parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
+        try {
+            parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
+        } catch (ParkingFullException e) {
+            e.printStackTrace();
+        }
         parkingFunction.getVehicleParkingSlotNumbers(21);
         String[]outputs = outContent.toString().split("\\R");
         assertEquals("1", (outputs[2]).trim());
@@ -79,7 +97,7 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
     @Test
-    public void testGetVehicleParkingSlotNumbersFailed() throws InvalidLotSizeException {
+    public void testGetVehicleParkingSlotNumbersFailed() throws InvalidLotSizeException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
@@ -90,7 +108,7 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
     @Test
-    public void testGetParkingSlotNumber() throws InvalidLotSizeException {
+    public void testGetParkingSlotNumber() throws InvalidLotSizeException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
@@ -101,7 +119,7 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
     @Test
-    public void testGetParkingSlotNumberFailed() throws InvalidLotSizeException {
+    public void testGetParkingSlotNumberFailed() throws InvalidLotSizeException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
@@ -112,7 +130,7 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
     @Test
-    public void testGetVehicleNumberList() throws InvalidLotSizeException  {
+    public void testGetVehicleNumberList() throws InvalidLotSizeException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));
@@ -123,7 +141,7 @@ public class ParkingFunctionImplTest extends TestCase {
     }
 
     @Test
-    public void testVacateParking() throws InvalidLotSizeException, InvalidSlotException {
+    public void testVacateParking() throws InvalidLotSizeException, InvalidSlotException, ParkingFullException {
         ParkingFunction parkingFunction = new ParkingFunctionImpl();
         parkingFunction.createParking(6);
         parkingFunction.parkVehicle(new Vehicle("KA-01-HH-1234", 21));

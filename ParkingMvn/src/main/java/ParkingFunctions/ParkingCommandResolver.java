@@ -5,12 +5,13 @@ import Entity.Vehicle;
 import Exceptions.InvalidCommandException;
 import Exceptions.InvalidLotSizeException;
 import Exceptions.InvalidSlotException;
+import Exceptions.ParkingFullException;
 import Validation.CommandValidation;
 
 public class ParkingCommandResolver {
   ParkingFunction parking = new ParkingFunctionImpl();
 
-  public void execute(String input) throws InvalidSlotException, InvalidCommandException, InvalidLotSizeException {
+  public void execute(String input) throws InvalidSlotException, InvalidCommandException, InvalidLotSizeException, ParkingFullException {
 
     String[] inputs = input.split(" ");
     String key = inputs[0];

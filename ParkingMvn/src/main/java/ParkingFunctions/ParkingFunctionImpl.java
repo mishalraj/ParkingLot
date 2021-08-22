@@ -30,14 +30,10 @@ public class ParkingFunctionImpl implements ParkingFunction{
   }
 
   @Override
-  public void parkVehicle(Vehicle vehicle) {
+  public void parkVehicle(Vehicle vehicle) throws ParkingFullException {
 
-    ParkingSlot nextSlot = null;
-    try {
-      nextSlot = getEmptySlot();
-    } catch (ParkingFullException e) {
-      e.printStackTrace();
-    }
+    ParkingSlot nextSlot = getEmptySlot();
+
     nextSlot.parkVehicle(vehicle);
 
     System.out.println(
