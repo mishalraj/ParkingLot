@@ -1,0 +1,10 @@
+package Enums;
+
+public enum ParkingCommands {
+    CREATE_PARKING,
+    PARK,
+    VACATE,
+    SLOT_NUMBERS_FOR_DRIVER,
+    SLOT_NUMBERS_FOR_VEHICLE_NUMBER,
+    VEHICLE_NUMBER_FOR_DRIVER,
+}
